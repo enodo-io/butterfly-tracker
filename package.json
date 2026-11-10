@@ -1,0 +1,56 @@
+{
+  "name": "@enodo/butterfly-tracker",
+  "version": "1.0.0",
+  "type": "module",
+  "description": "Cookieless first-party audience tracker for Enodo Butterfly sites (pageview hits, no cookie, no storage)",
+  "author": "Jerome Musialak <jerome@eno.do>",
+  "license": "MIT",
+  "homepage": "https://github.com/enodo-io/butterfly-tracker",
+  "bugs": {
+    "url": "https://github.com/enodo-io/butterfly-tracker/issues"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/enodo-io/butterfly-tracker.git"
+  },
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "import": "./dist/index.js"
+    },
+    "./script": "./dist/butterfly-tracker.min.js"
+  },
+  "sideEffects": false,
+  "scripts": {
+    "build": "tsc --project tsconfig.build.json && esbuild src/script.ts --bundle --minify --format=iife --target=es2017 --outfile=dist/butterfly-tracker.min.js",
+    "lint": "eslint --config eslint.config.mjs --max-warnings=0 .",
+    "lint:tsc": "tsc --noEmit",
+    "format": "prettier --write .",
+    "test": "vitest",
+    "prepublishOnly": "npm run lint && npm run lint:tsc && npm test && npm run build"
+  },
+  "keywords": [
+    "butterfly",
+    "analytics",
+    "tracker",
+    "cookieless",
+    "pageview"
+  ],
+  "devDependencies": {
+    "@eslint/js": "^9.39.5",
+    "@types/node": "^24.19.2",
+    "esbuild": "^0.25.12",
+    "eslint": "^9.39.5",
+    "eslint-config-prettier": "^10.1.8",
+    "eslint-import-resolver-typescript": "^4.4.5",
+    "eslint-plugin-import-x": "^4.18.0",
+    "eslint-plugin-prettier": "^5.5.7",
+    "eslint-plugin-unused-imports": "^4.4.1",
+    "prettier": "^3.9.10",
+    "typescript": "^5.9.3",
+    "typescript-eslint": "^8.72.1",
+    "vitest": "^3.2.7"
+  }
+}
