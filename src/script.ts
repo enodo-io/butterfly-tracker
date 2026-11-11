@@ -5,18 +5,22 @@
  *     data-url="https://t.example.com" data-type="post" data-id="123"></script>
  *
  * Sends one hit when loaded (data-type defaults to `page`, data-auto="false" to
- * skip it) and exposes `window.ButterflyTracker` for manual hits.
+ * skip it) and exposes `window.btfTrack(hit)` for manual hits.
  */
 import { createTracker, toHit, trackerUrlFromApiUrl, type Hit } from './index.js';
 
+type BtfTrack = {
+  /** Sends a hit: `btfTrack({ t: 'post', id: '123' })` */
+  (hit: Hit): boolean;
+  tracker: ReturnType<typeof createTracker>;
+  createTracker: typeof createTracker;
+  toHit: typeof toHit;
+  trackerUrlFromApiUrl: typeof trackerUrlFromApiUrl;
+};
+
 declare global {
   interface Window {
-    ButterflyTracker?: {
-      tracker: ReturnType<typeof createTracker>;
-      createTracker: typeof createTracker;
-      toHit: typeof toHit;
-      trackerUrlFromApiUrl: typeof trackerUrlFromApiUrl;
-    };
+    btfTrack?: BtfTrack;
   }
 }
 
@@ -29,7 +33,12 @@ const tracker = createTracker({
   propertyId: data.property ? parseInt(data.property, 10) : undefined,
 });
 
-window.ButterflyTracker = { tracker, createTracker, toHit, trackerUrlFromApiUrl };
+window.btfTrack = Object.assign((hit: Hit) => tracker.hit(hit), {
+  tracker,
+  createTracker,
+  toHit,
+  trackerUrlFromApiUrl,
+});
 
 if (data.auto !== 'false') {
   const hit: Hit = { t: data.type || 'page' };

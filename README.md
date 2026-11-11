@@ -40,12 +40,17 @@ same URL are not sent.
 ## Without a bundler
 
 ```html
-<script defer src="https://cdn.jsdelivr.net/npm/@enodo/butterfly-tracker/dist/butterfly-tracker.min.js"
-  data-url="https://t.example.com" data-type="post" data-id="123"></script>
+<script
+  defer
+  src="https://cdn.jsdelivr.net/npm/@enodo/butterfly-tracker/dist/butterfly-tracker.min.js"
+  data-url="https://t.example.com"
+  data-type="post"
+  data-id="123"
+></script>
 ```
 
 Sends one hit on load (`data-type` defaults to `page`, `data-auto="false"` to skip) and
-exposes `window.ButterflyTracker`.
+exposes `window.btfTrack` for manual hits: `btfTrack({ t: 'post', id: '123' })`.
 
 ## Without JavaScript
 
@@ -54,8 +59,13 @@ query string on `GET /h.gif`:
 
 ```html
 <noscript>
-  <img src="https://t.example.com/h.gif?t=post&id=123" alt="" width="1" height="1"
-    style="position:absolute">
+  <img
+    src="https://t.example.com/h.gif?t=post&id=123"
+    alt=""
+    width="1"
+    height="1"
+    style="position:absolute"
+  />
 </noscript>
 ```
 
@@ -65,13 +75,13 @@ page cannot read `document.referrer`, so no `e` / `r` is sent.
 
 ## Hit
 
-| key | meaning |
-| --- | --- |
-| `t` | page type: post, page, category, tag, author, home, search, or any site type |
-| `id` | id of the content in the Butterfly API (post, category, term, author) |
-| `tx` | taxonomy id of a term page |
-| `pi` | page index |
-| `q`, `n` | search query, number of results |
-| `p` | property id, only on a shared tracker host |
-| `e` | entry: `1` on the first hit after a page load (set by the tracker) |
-| `r` | referrer hostname of the entry hit, never the full URL (set by the tracker) |
+| key      | meaning                                                                      |
+| -------- | ---------------------------------------------------------------------------- |
+| `t`      | page type: post, page, category, tag, author, home, search, or any site type |
+| `id`     | id of the content in the Butterfly API (post, category, term, author)        |
+| `tx`     | taxonomy id of a term page                                                   |
+| `pi`     | page index                                                                   |
+| `q`, `n` | search query, number of results                                              |
+| `p`      | property id, only on a shared tracker host                                   |
+| `e`      | entry: `1` on the first hit after a page load (set by the tracker)           |
+| `r`      | referrer hostname of the entry hit, never the full URL (set by the tracker)  |
